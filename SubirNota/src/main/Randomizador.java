@@ -1,11 +1,47 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import model.Accion;
+import model.Lugar;
+import model.Persona;
+import model.TMPersona;
+
 
 public class Randomizador extends javax.swing.JFrame {
-
-   
+    private List<Persona> ListaPersona;
+    private List<Accion> ListaAccion;
+    private List<Lugar> ListaLugar;
+    
+    
+    private int contIdPersona;
+    private int contIdAccion;
+    private int contIdLugar;
+    
+    private TMPersona modelPersona;
+    private final Random ranNombre;
+    private final Random ranLugar;
+    private final Random ranAccion;
+    
+    
     public Randomizador() {
         initComponents();
+        ranNombre = new Random();
+        ranAccion = new Random();
+        ranLugar = new Random();
+        ListaPersona = new ArrayList<>();
+        ListaAccion = new ArrayList<>();
+        ListaLugar = new ArrayList<>();
+        
+        
+        contIdPersona = 0;
+        contIdAccion = 0;
+        contIdLugar = 0;
+        
+        modelPersona = new TMPersona(ListaPersona);
+        tblNombres.setModel(modelPersona);
+        
     }
 
   
@@ -37,8 +73,19 @@ public class Randomizador extends javax.swing.JFrame {
         jLabel2.setText("Accion");
 
         btnAnadirNombre.setText("Añadir");
+        btnAnadirNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirNombreActionPerformed(evt);
+            }
+        });
 
         btnAnadirAccion.setText("Añadir");
+
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Lugar");
 
@@ -156,6 +203,26 @@ public class Randomizador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAnadirNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirNombreActionPerformed
+    String nombre = txtNombre.getText();
+    if (!nombre.trim().isEmpty()){
+        
+        Persona p = new Persona();
+        
+        p.setNombre(nombre);
+        p.setId(++contIdPersona);
+        
+        ListaPersona.add(p);
+        
+        
+                
+    }
+    }//GEN-LAST:event_btnAnadirNombreActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
    
     public static void main(String args[]) {
         
@@ -184,4 +251,8 @@ public class Randomizador extends javax.swing.JFrame {
     private javax.swing.JTextField txtLugar;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    private void setCentered(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -1,16 +1,24 @@
-
 package model;
 
 public class Accion {
+
     private int id;
-    private String verbo;
+    private String accion;
+
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setVerbo(String verbo) {
-        this.verbo = verbo;
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
     }
 
 }
