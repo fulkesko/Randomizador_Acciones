@@ -7,6 +7,10 @@ public class TMLugar extends AbstractTableModel {
 
     private List<Lugar> lista;
 
+    public TMLugar(List<Lugar> lista) {
+        this.lista = lista;
+    }
+
     public void setLista(List<Lugar> lista) {
         this.lista = lista;
     }

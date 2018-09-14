@@ -31,10 +31,10 @@ public class TMAccion extends AbstractTableModel {
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
-        Accion a = lista.get(row);
+    public Object getValueAt(int fila, int columna) {
+        Accion a = lista.get(fila);
 
-        if (column == 0) {
+        if (columna == 0) {
             return a.getId();
         } else {
             return a.getAccion();

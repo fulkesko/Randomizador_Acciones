@@ -7,6 +7,8 @@ import java.util.Random;
 import model.Accion;
 import model.Lugar;
 import model.Persona;
+import model.TMAccion;
+import model.TMLugar;
 import model.TMPersona;
 
 public class Randomizador extends javax.swing.JFrame {
@@ -20,6 +22,8 @@ public class Randomizador extends javax.swing.JFrame {
     private int contIdLugar;
 
     private TMPersona modelPersona;
+    private TMAccion modelAccion;
+    private TMLugar modelLugar;
     private final Random ranNombre;
     private final Random ranLugar;
     private final Random ranAccion;
@@ -38,7 +42,12 @@ public class Randomizador extends javax.swing.JFrame {
         contIdLugar = 0;
 
         modelPersona = new TMPersona(ListaPersona);
+        modelAccion = new TMAccion(ListaAccion);
+        modelLugar = new TMLugar(ListaLugar);
+
         tblNombres.setModel(modelPersona);
+        tblAcciones.setModel(modelAccion);
+        tblLugares.setModel(modelLugar);
 
     }
 
@@ -62,6 +71,8 @@ public class Randomizador extends javax.swing.JFrame {
         btnAnadirNombre = new javax.swing.JButton();
         btnAnadirAccion = new javax.swing.JButton();
         btnAnadirLugar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,19 +80,27 @@ public class Randomizador extends javax.swing.JFrame {
 
         jLabel2.setText("Accion");
 
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNombreKeyPressed(evt);
             }
         });
 
+        txtAccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtAccionKeyPressed(evt);
+            }
+        });
+
         jLabel3.setText("Lugar");
 
+        txtLugar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtLugarKeyPressed(evt);
+            }
+        });
+
+        tblAcciones.setBackground(new java.awt.Color(51, 255, 0));
         tblAcciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -95,6 +114,7 @@ public class Randomizador extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblAcciones);
 
+        tblLugares.setBackground(new java.awt.Color(51, 255, 0));
         tblLugares.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -108,6 +128,7 @@ public class Randomizador extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblLugares);
 
+        tblNombres.setBackground(new java.awt.Color(51, 255, 0));
         tblNombres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -129,8 +150,35 @@ public class Randomizador extends javax.swing.JFrame {
         });
 
         btnAnadirAccion.setText("añadir");
+        btnAnadirAccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirAccionActionPerformed(evt);
+            }
+        });
 
         btnAnadirLugar.setText("añadir");
+        btnAnadirLugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirLugarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("jButton1");
+
+        jPanel2.setBackground(new java.awt.Color(102, 255, 102));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("RANDOM"));
+        jPanel2.setForeground(new java.awt.Color(204, 0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 134, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -139,26 +187,30 @@ public class Randomizador extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnAnadirNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(btnAnadirAccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtAccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(txtLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(btnAnadirLugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnAnadirNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnAnadirAccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtAccion, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3)
+                                    .addComponent(txtLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                    .addComponent(btnAnadirLugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addGap(0, 21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -184,7 +236,11 @@ public class Randomizador extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(208, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -203,21 +259,38 @@ public class Randomizador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
     private void btnAnadirNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirNombreActionPerformed
         anadirNombre();
      }//GEN-LAST:event_btnAnadirNombreActionPerformed
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             anadirNombre();
         }
     }//GEN-LAST:event_txtNombreKeyPressed
 
-    public static void main(String args[]) {
+    private void btnAnadirAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirAccionActionPerformed
+        anadirAccion();
+    }//GEN-LAST:event_btnAnadirAccionActionPerformed
+
+    private void txtAccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAccionKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            anadirAccion();
+        }
+    }//GEN-LAST:event_txtAccionKeyPressed
+
+    private void btnAnadirLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirLugarActionPerformed
+        anadirLugar();
+    }//GEN-LAST:event_btnAnadirLugarActionPerformed
+
+    private void txtLugarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            anadirLugar();
+            
+        }
+     }//GEN-LAST:event_txtLugarKeyPressed
+
+public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -230,10 +303,12 @@ public class Randomizador extends javax.swing.JFrame {
     private javax.swing.JButton btnAnadirAccion;
     private javax.swing.JButton btnAnadirLugar;
     private javax.swing.JButton btnAnadirNombre;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -259,10 +334,44 @@ public class Randomizador extends javax.swing.JFrame {
             p.setId(++contIdPersona);
 
             ListaPersona.add(p);
-            
+
             tblNombres.updateUI();
             txtNombre.setText(null);
             txtNombre.requestFocus();
+        }
+    }
+
+    private void anadirAccion() {
+        String nombre = txtAccion.getText();
+        if (!nombre.trim().isEmpty()) {
+
+            Accion a = new Accion();
+
+            a.setAccion(nombre);
+            a.setId(++contIdAccion);
+
+            ListaAccion.add(a);
+
+            tblAcciones.updateUI();
+            txtAccion.setText(null);
+            txtAccion.requestFocus();
+        }
+    }
+
+    private void anadirLugar() {
+        String nombre = txtLugar.getText();
+        if (!nombre.trim().isEmpty()) {
+
+            Lugar l = new Lugar();
+
+            l.setLocacion(nombre);
+            l.setId(++contIdLugar);
+
+            ListaLugar.add(l);
+
+            tblLugares.updateUI();
+            txtLugar.setText(null);
+            txtLugar.requestFocus();
         }
     }
 }
