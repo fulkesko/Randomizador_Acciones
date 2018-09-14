@@ -13,9 +13,9 @@ import model.TMPersona;
 
 public class Randomizador extends javax.swing.JFrame {
 
-    private List<Persona> ListaPersona;
-    private List<Accion> ListaAccion;
-    private List<Lugar> ListaLugar;
+    private List<Persona> ListaPersonas;
+    private List<Accion> ListaAcciones;
+    private List<Lugar> ListasLugares;
 
     private int contIdPersona;
     private int contIdAccion;
@@ -24,26 +24,27 @@ public class Randomizador extends javax.swing.JFrame {
     private TMPersona modelPersona;
     private TMAccion modelAccion;
     private TMLugar modelLugar;
-    private final Random ranNombre;
-    private final Random ranLugar;
-    private final Random ranAccion;
+    private Random ranNombre;
+    private Random ranLugar;
+    private Random ranAccion;
 
     public Randomizador() {
         initComponents();
         ranNombre = new Random();
         ranAccion = new Random();
         ranLugar = new Random();
-        ListaPersona = new ArrayList<>();
-        ListaAccion = new ArrayList<>();
-        ListaLugar = new ArrayList<>();
+        
+        ListaPersonas = new ArrayList<>();
+        ListaAcciones = new ArrayList<>();
+        ListasLugares = new ArrayList<>();
 
         contIdPersona = 0;
         contIdAccion = 0;
         contIdLugar = 0;
 
-        modelPersona = new TMPersona(ListaPersona);
-        modelAccion = new TMAccion(ListaAccion);
-        modelLugar = new TMLugar(ListaLugar);
+        modelPersona = new TMPersona(ListaPersonas);
+        modelAccion = new TMAccion(ListaAcciones);
+        modelLugar = new TMLugar(ListasLugares);
 
         tblNombres.setModel(modelPersona);
         tblAcciones.setModel(modelAccion);
@@ -71,8 +72,9 @@ public class Randomizador extends javax.swing.JFrame {
         btnAnadirNombre = new javax.swing.JButton();
         btnAnadirAccion = new javax.swing.JButton();
         btnAnadirLugar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnMezclar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        lblFrase = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,21 +165,36 @@ public class Randomizador extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        btnMezclar.setText("shuffle!!");
+        btnMezclar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMezclarActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(102, 255, 102));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("RANDOM"));
         jPanel2.setForeground(new java.awt.Color(204, 0, 0));
 
+        lblFrase.setFont(new java.awt.Font("HP Simplified Light", 1, 18)); // NOI18N
+        lblFrase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFrase.setText("Frase Resultado");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(lblFrase, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 134, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(lblFrase, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addGap(31, 31, 31))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -188,7 +205,7 @@ public class Randomizador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1)
+                    .addComponent(btnMezclar)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnAnadirNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -237,7 +254,7 @@ public class Randomizador extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnMezclar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -286,11 +303,29 @@ public class Randomizador extends javax.swing.JFrame {
     private void txtLugarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLugarKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             anadirLugar();
-            
+
         }
      }//GEN-LAST:event_txtLugarKeyPressed
 
-public static void main(String args[]) {
+    private void btnMezclarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMezclarActionPerformed
+        int sizeP = ListaPersonas.size();
+        int sizeA = ListaAcciones.size();
+        int sizeL = ListasLugares.size();
+        
+        if(sizeP > 0 && sizeA > 0 && sizeL > 0){
+            int numRandomP = ranNombre.nextInt(sizeP);
+            int numRandomA = ranAccion.nextInt(sizeA);
+            int numRandomL = ranLugar.nextInt(sizeL);
+            
+            Persona p = ListaPersonas.get(numRandomP);
+            Accion a = ListaAcciones.get(numRandomA);
+            Lugar l = ListasLugares.get(numRandomL);
+            
+            lblFrase.setText(p.getNombre() + " " + a.getAccion() + " " + l.getLocacion());
+        }
+    }//GEN-LAST:event_btnMezclarActionPerformed
+
+    public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -303,7 +338,7 @@ public static void main(String args[]) {
     private javax.swing.JButton btnAnadirAccion;
     private javax.swing.JButton btnAnadirLugar;
     private javax.swing.JButton btnAnadirNombre;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnMezclar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -312,6 +347,7 @@ public static void main(String args[]) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblFrase;
     private javax.swing.JTable tblAcciones;
     private javax.swing.JTable tblLugares;
     private javax.swing.JTable tblNombres;
@@ -333,7 +369,7 @@ public static void main(String args[]) {
             p.setNombre(nombre);
             p.setId(++contIdPersona);
 
-            ListaPersona.add(p);
+            ListaPersonas.add(p);
 
             tblNombres.updateUI();
             txtNombre.setText(null);
@@ -350,7 +386,7 @@ public static void main(String args[]) {
             a.setAccion(nombre);
             a.setId(++contIdAccion);
 
-            ListaAccion.add(a);
+            ListaAcciones.add(a);
 
             tblAcciones.updateUI();
             txtAccion.setText(null);
@@ -367,7 +403,7 @@ public static void main(String args[]) {
             l.setLocacion(nombre);
             l.setId(++contIdLugar);
 
-            ListaLugar.add(l);
+            ListasLugares.add(l);
 
             tblLugares.updateUI();
             txtLugar.setText(null);
