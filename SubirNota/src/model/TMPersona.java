@@ -8,7 +8,7 @@ public class TMPersona extends AbstractTableModel {
     private List<Persona> lista;
 
     public TMPersona(List<Persona> lista) {
-
+        this.lista = lista;
     }
 
     @Override
@@ -31,9 +31,7 @@ public class TMPersona extends AbstractTableModel {
         }
     }
 
-    public void setLista(List<Persona> lista) {
-        this.lista = lista;
-    }
+  
 
     @Override
     public String getColumnName(int column) {
