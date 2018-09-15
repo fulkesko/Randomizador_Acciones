@@ -4,7 +4,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Accion;
+import model.Hilo;
 import model.Lugar;
 import model.Persona;
 import model.TMAccion;
@@ -33,7 +36,7 @@ public class Randomizador extends javax.swing.JFrame {
         ranNombre = new Random();
         ranAccion = new Random();
         ranLugar = new Random();
-        
+
         ListaPersonas = new ArrayList<>();
         ListaAcciones = new ArrayList<>();
         ListasLugares = new ArrayList<>();
@@ -49,6 +52,8 @@ public class Randomizador extends javax.swing.JFrame {
         tblNombres.setModel(modelPersona);
         tblAcciones.setModel(modelAccion);
         tblLugares.setModel(modelLugar);
+
+        Hilo h = new Hilo();
 
     }
 
@@ -75,6 +80,8 @@ public class Randomizador extends javax.swing.JFrame {
         btnMezclar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblFrase = new javax.swing.JLabel();
+        btnHiloRandom = new javax.swing.JButton();
+        lblVitrina = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +91,11 @@ public class Randomizador extends javax.swing.JFrame {
 
         jLabel2.setText("Accion");
 
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtNombreKeyPressed(evt);
@@ -230,7 +242,7 @@ public class Randomizador extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(txtLugar, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                     .addComponent(btnAnadirLugar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,17 +274,44 @@ public class Randomizador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnHiloRandom.setText("Hilo Randomizador");
+        btnHiloRandom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHiloRandomActionPerformed(evt);
+            }
+        });
+
+        lblVitrina.setFont(new java.awt.Font("Arial", 3, 24)); // NOI18N
+        lblVitrina.setForeground(new java.awt.Color(255, 102, 204));
+        lblVitrina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblVitrina.setText("[TEXTO]");
+        lblVitrina.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnHiloRandom, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(160, 160, 160))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblVitrina, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(btnHiloRandom)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblVitrina, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -313,19 +352,21 @@ public class Randomizador extends javax.swing.JFrame {
         int sizeP = ListaPersonas.size();
         int sizeA = ListaAcciones.size();
         int sizeL = ListasLugares.size();
-        
-        if(sizeP > 0 && sizeA > 0 && sizeL > 0){
-            int numRandomP = ranNombre.nextInt(sizeP);
-            int numRandomA = ranAccion.nextInt(sizeA);
-            int numRandomL = ranLugar.nextInt(sizeL);
-            
-            Persona p = ListaPersonas.get(numRandomP);
-            Accion a = ListaAcciones.get(numRandomA);
-            Lugar l = ListasLugares.get(numRandomL);
-            
-            lblFrase.setText(p.getNombre() + " " + a.getAccion() + " " + l.getLocacion());
-        }
+
+        combinador();
+
     }//GEN-LAST:event_btnMezclarActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void btnHiloRandomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHiloRandomActionPerformed
+        Hilo h = new Hilo();
+        h.start();
+
+
+    }//GEN-LAST:event_btnHiloRandomActionPerformed
 
     public static void main(String args[]) {
 
@@ -340,6 +381,7 @@ public class Randomizador extends javax.swing.JFrame {
     private javax.swing.JButton btnAnadirAccion;
     private javax.swing.JButton btnAnadirLugar;
     private javax.swing.JButton btnAnadirNombre;
+    private javax.swing.JButton btnHiloRandom;
     private javax.swing.JButton btnMezclar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -350,6 +392,7 @@ public class Randomizador extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblFrase;
+    private javax.swing.JLabel lblVitrina;
     private javax.swing.JTable tblAcciones;
     private javax.swing.JTable tblLugares;
     private javax.swing.JTable tblNombres;
@@ -412,4 +455,60 @@ public class Randomizador extends javax.swing.JFrame {
             txtLugar.requestFocus();
         }
     }
+
+    private void combinador() {
+        int sizeP = ListaPersonas.size();
+        int sizeA = ListaAcciones.size();
+        int sizeL = ListasLugares.size();
+
+        if (sizeP > 0 && sizeA > 0 && sizeL > 0) {
+            int numRandomP = ranNombre.nextInt(sizeP);
+            int numRandomA = ranAccion.nextInt(sizeA);
+            int numRandomL = ranLugar.nextInt(sizeL);
+
+            Persona p = ListaPersonas.get(numRandomP);
+            Accion a = ListaAcciones.get(numRandomA);
+            Lugar l = ListasLugares.get(numRandomL);
+
+            lblFrase.setText(p.getNombre() + " " + a.getAccion() + " " + l.getLocacion());
+        }
+    }
+
+    public class Hilo extends Thread {
+
+        private int cont = 0;
+
+        public void run() {
+            while (true) {
+                combinador2();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Randomizador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+    }
+
+    private void combinador2() {
+        int sizeP = ListaPersonas.size();
+        int sizeA = ListaAcciones.size();
+        int sizeL = ListasLugares.size();
+
+        if (sizeP > 0 && sizeA > 0 && sizeL > 0) {
+            int numRandomP = ranNombre.nextInt(sizeP);
+            int numRandomA = ranAccion.nextInt(sizeA);
+            int numRandomL = ranLugar.nextInt(sizeL);
+
+            Persona p = ListaPersonas.get(numRandomP);
+            Accion a = ListaAcciones.get(numRandomA);
+            Lugar l = ListasLugares.get(numRandomL);
+
+            lblVitrina.setText(p.getNombre() + " " + a.getAccion() + " " + l.getLocacion());
+        }
+
+    }
+
 }
